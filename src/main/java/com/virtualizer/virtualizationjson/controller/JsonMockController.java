@@ -30,14 +30,23 @@ public class JsonMockController {
         if(jsonFound != null) {
             return ResponseEntity.ok(jsonFound);
         }
+        return ResponseEntity.notFound().build();
+    }
 
+    @PutMapping("/{name}")
+    public ResponseEntity<JsonMock> editJson(@PathVariable String name, @RequestBody JsonMock form) {
+        JsonMock optional = jsonMockRepository.findByName(name);
+        if(optional != null) {
+            JsonMock newJson = form.update(optional.getId(), jsonMockRepository);
+            jsonMockRepository.save(newJson);
+            return ResponseEntity.ok(newJson);
+        }
         return ResponseEntity.notFound().build();
     }
 
 
     @PostMapping("/cadastro")
     public ResponseEntity<?> cadastrar(@RequestBody JsonMock form) {
-
         JsonMock jsonMock = new JsonMock(form);
         jsonMockRepository.save(jsonMock);
         return ResponseEntity.ok(jsonMock);

@@ -8,6 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 @EnableJpaRepositories
 public interface JsonMockRepository extends JpaRepository<JsonMock, Long> {
-    
+
     JsonMock findByName(String name);
 }
